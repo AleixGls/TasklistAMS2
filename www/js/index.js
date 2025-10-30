@@ -5,16 +5,24 @@ window.addEventListener("DOMContentLoaded", () => {
     const taskInput = document.getElementById("taskInput");
     const taskList = document.getElementById("taskList");
 
+
+
     // -----------------------------------------------------------------------------------
     // Variables
+    // Carrega les tasques desades al localStorage o crea un array buit si no n’hi ha
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+
 
     // -----------------------------------------------------------------------------------
     // Inicialització
-    renderTasks();
+    renderTasks(); // Mostrar les tasques guardades en iniciar
+
+
 
     // -----------------------------------------------------------------------------------
     // Funcions
+    // Afegir una nova tasca (verifica que el camp no estigui buit)
     function addTask() {
         const text = taskInput.value.trim();
         if (text === "") {
@@ -22,11 +30,15 @@ window.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Crear objecte de tasca
         const newTask = { text, completed: false };
         tasks.push(newTask);
+
+        // Guardar i actualitzar la llista
         saveTasks();
         renderTasks();
 
+        // Netejar el camp d’entrada
         taskInput.value = "";
         taskInput.focus();
     }
@@ -46,19 +58,24 @@ window.addEventListener("DOMContentLoaded", () => {
             span.textContent = task.text;
             span.classList.add("task-text");
 
+            // Boto d’editar
             const editBtn = document.createElement("button");
             editBtn.textContent = "Edita";
             editBtn.classList.add("edit-btn");
             editBtn.addEventListener("click", () => editTask(index));
 
+            // Boto d’esborrar
             const deleteBtn = document.createElement("button");
             deleteBtn.textContent = "Esborra";
             deleteBtn.classList.add("delete-btn");
             deleteBtn.addEventListener("click", () => deleteTask(index));
 
+            // Afegir tots els elements dins de <li>
             li.appendChild(span);
             li.appendChild(editBtn);
             li.appendChild(deleteBtn);
+
+            // Afegir la tasca a la llista HTML
             taskList.appendChild(li);
         });
     }
